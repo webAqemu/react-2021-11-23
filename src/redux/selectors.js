@@ -34,7 +34,7 @@ export const productSelector = (state, { id }) => productsSelector(state)[id];
 export const reviewSelector = (state, { id }) => reviewsSelector(state)[id];
 export const amountSelector = (state, { id }) => orderSelector(state)[id] || 0;
 export const orderProductsSelector = createSelector(
-  [productsSelector, orderSelector],
+  [productsSelector, orderSelector, activeRestIdSelector],
   (products, order) =>
     Object.keys(order)
       .filter((productId) => order[productId] > 0)
@@ -43,6 +43,7 @@ export const orderProductsSelector = createSelector(
         product,
         amount: order[product.id],
         subtotal: order[product.id] * product.price,
+        restId: 1,
       }))
 );
 
@@ -69,5 +70,14 @@ export const averageRatingSelector = createSelector(
     return Math.round(
       ratings.reduce((acc, rating) => acc + rating, 0) / ratings.length
     );
+  }
+);
+
+export const findRestaurantForProduct = createSelector(
+  orderSelector,
+  (state) => {
+    const key = Object.keys(state)[0];
+    console.log(key);
+    return 1;
   }
 );
